@@ -287,6 +287,19 @@ function diffState(current, desired) {
     changes.push({ type: "hostname:change", from: currentHostname, to: desired.system.hostname });
   }
 
+  // DE switch — detect current DE from active display manager
+  const dmToDE = { sddm: "kde", gdm: "gnome", ly: null };
+  const enabledDMs = (current?.enabled ?? []).filter(s => ["sddm","gdm","ly"].includes(s));
+  let currentDE = enabledDMs.length > 0 ? (dmToDE[enabledDMs[0]] ?? "hyprland") : null;
+  if (enabledDMs[0] === "ly") {
+    const installed = run("xbps-query -l", { silent: true, optional: true });
+    currentDE = installed.includes("hyprland") ? "hyprland" : "sway";
+  }
+  const desiredDE = desired.desktop?.environment;
+  if (desiredDE && currentDE && desiredDE !== currentDE) {
+    changes.push({ type: "de:switch", from: currentDE, to: desiredDE });
+  }
+
   return changes;
 }
 
@@ -394,6 +407,15 @@ async function applyConfig(config, opts = {}) {
           run(`hostname ${change.to}`);
           log.ok(`Hostname changed to ${change.to}`);
           break;
+
+        case "de:switch":
+          log.step(`Switching desktop: ${change.from} → ${change.to}`);
+          log.warn("DE switch is a heavy operation — your display will restart");
+          runVerbose(
+            `bun /usr/lib/hollow/hollow-de-switch.js ${change.from} ${change.to}`
+          );
+          log.ok(`Switched to ${change.to}`);
+          break;
       }
     }
 
@@ -480,6 +502,9 @@ async function main() {
               break;
             case "hostname:change":
               log.raw(`  ${c.blue}~ hostname:${c.reset} ${change.from} → ${change.to}`);
+              break;
+            case "de:switch":
+              log.raw(`  ${c.yellow}~ desktop:${c.reset} ${change.from} → ${change.to} ${c.yellow}(heavy)${c.reset}`);
               break;
           }
         }

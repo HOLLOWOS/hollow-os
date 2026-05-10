@@ -1,0 +1,21 @@
+# HollowOS GNOME defaults
+# Sets the wallpaper and a few sensible defaults for the live session
+
+[org/gnome/desktop/background]
+picture-uri='file:///usr/share/hollowos/wallpaper.png'
+picture-uri-dark='file:///usr/share/hollowos/wallpaper.png'
+picture-options='zoom'
+primary-color='#0d0d11'
+
+[org/gnome/desktop/screensaver]
+picture-uri='file:///usr/share/hollowos/wallpaper.png'
+picture-options='zoom'
+primary-color='#0d0d11'
+
+[org/gnome/desktop/interface]
+color-scheme='prefer-dark'
+gtk-theme='Adwaita-dark'
+font-name='Noto Sans 11'
+
+[org/gnome/shell]
+favorite-apps=['calamares.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']

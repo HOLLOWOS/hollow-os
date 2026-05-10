@@ -10,6 +10,9 @@ case "$1" in
   add|remove|upgrade)
     exec bun "$HOLLOW_COMMANDS" "$@"
     ;;
+  de-switch)
+    exec bun "/usr/lib/hollow/hollow-de-switch.js" "${@:2}"
+    ;;
   *)
     exec bun "$HOLLOW_JS" "$@"
     ;;
