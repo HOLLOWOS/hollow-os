@@ -1,0 +1,16 @@
+#!/bin/bash
+# hollow — HollowOS system orchestrator wrapper
+# Routes commands to the right Bun script
+# Install to: /usr/bin/hollow
+
+HOLLOW_JS="/usr/lib/hollow/hollow.js"
+HOLLOW_COMMANDS="/usr/lib/hollow/hollow-commands.js"
+
+case "$1" in
+  add|remove|upgrade)
+    exec bun "$HOLLOW_COMMANDS" "$@"
+    ;;
+  *)
+    exec bun "$HOLLOW_JS" "$@"
+    ;;
+esac

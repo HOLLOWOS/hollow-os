@@ -560,3 +560,7 @@ main().catch(err => {
   console.error(`\n${c.red}  Fatal: ${err.message}${c.reset}\n`);
   process.exit(1);
 });
+
+// ── hollow add/remove/upgrade (appended) ─────────────────
+// These are loaded by patching main() via a wrapper at the
+// bottom of the file. The switch above handles the routing.
