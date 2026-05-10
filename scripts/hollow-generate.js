@@ -161,6 +161,18 @@ if (hollow.hardware.zram) {
   }
 }
 
+// ── Install bun ──────────────────────────────────────────
+console.log("[hollow] Installing bun...");
+try {
+  execSync(
+    `chroot ${rootMount} sh -c "curl -fsSL https://bun.sh/install | bash -s -- --install-dir /usr/local/bin"`,
+    { stdio: "pipe" }
+  );
+  console.log("[hollow] bun installed");
+} catch {
+  console.warn("[hollow] bun install failed — run manually: curl -fsSL https://bun.sh/install | bash");
+}
+
 // ── Set hostname ─────────────────────────────────────────
 try {
   writeFileSync(`${rootMount}/etc/hostname`, hollow.system.hostname + "\n");

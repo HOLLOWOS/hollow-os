@@ -40,7 +40,7 @@ PACKAGES=(
   base-system
   curl
   git
-  bun
+  unzip
   NetworkManager
   dbus
   elogind
