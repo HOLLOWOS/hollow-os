@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "version": "1",
+    "generated": "2025-01-01T00:00:00.000Z",
+    "generator": "hollow-generate@0.1.0"
+  },
+
+  "system": {
+    "hostname": "mymachine",
+    "locale": "en_US.UTF-8",
+    "timezone": "America/New_York",
+    "keyboard": "us",
+    "unfree": false
+  },
+
+  "user": {
+    "name": "alice",
+    "shell": "fish",
+    "autologin": false
+  },
+
+  "desktop": {
+    "environment": "kde",
+    "displayManager": "sddm",
+    "theme": "dark"
+  },
+
+  "packages": {
+    "browser": "firefox",
+    "flatpak": true,
+    "extra": []
+  },
+
+  "hardware": {
+    "drivers": "auto",
+    "zram": true
+  },
+
+  "services": {
+    "enabled": [
+      "dbus",
+      "elogind",
+      "NetworkManager",
+      "sddm",
+      "pipewire",
+      "wireplumber"
+    ]
+  },
+
+  "user_packages": []
+}
