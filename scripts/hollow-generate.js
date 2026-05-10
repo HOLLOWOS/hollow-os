@@ -27,6 +27,7 @@ const choices = {
   unfree:      process.env.HOLLOW_UNFREE      ?? "false",
   flatpak:     process.env.HOLLOW_FLATPAK     ?? "false",
   drivers:     process.env.HOLLOW_DRIVERS     ?? "auto",
+  driverPkgs:  process.env.HOLLOW_DRIVER_PKGS ?? "",
   autologin:   process.env.HOLLOW_AUTOLOGIN   ?? "false",
   ssh:         process.env.HOLLOW_SSH         ?? "false",
   zram:        process.env.HOLLOW_ZRAM        ?? "true",
@@ -83,8 +84,11 @@ const hollow = {
   },
 
   hardware: {
-    drivers: choices.drivers,
-    zram:    choices.zram === "true",
+    drivers:  choices.drivers,
+    packages: choices.driverPkgs
+      ? choices.driverPkgs.split(" ").filter(Boolean)
+      : ["mesa", "vulkan-loader"],
+    zram:     choices.zram === "true",
   },
 
   services: {
