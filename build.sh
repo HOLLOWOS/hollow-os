@@ -62,8 +62,22 @@ PACKAGES=(
   noto-fonts-emoji
   liberation-fonts-ttf
 
-  # Calamares installer
-  calamares
+  # Calamares build dependencies
+  cmake
+  extra-cmake-modules
+  qt5-devel
+  qt5-declarative-devel
+  qt5-svg-devel
+  qt5-xmlpatterns-devel
+  qt5-tools
+  kpmcore-devel
+  boost-devel
+  yaml-cpp-devel
+  libatasmart-devel
+  polkit-qt5-devel
+  ckbcomp
+  python3
+  python3-devel
 
   # Bootloader
   limine
@@ -75,6 +89,34 @@ PACKAGES=(
   vim
   firefox
 )
+
+# ── Build Calamares from source ──────────────────────────
+log "Building Calamares from source..."
+
+CALAMARES_VERSION="3.3.14"
+CALAMARES_DIR="/tmp/calamares-build"
+
+if [ ! -d "$CALAMARES_DIR" ]; then
+  git clone --depth=1 --branch v${CALAMARES_VERSION} \
+    https://github.com/calamares/calamares.git "$CALAMARES_DIR" \
+    || fail "Failed to clone Calamares"
+fi
+
+mkdir -p "$CALAMARES_DIR/build"
+cd "$CALAMARES_DIR/build"
+
+cmake .. \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=/usr \
+  -DWITH_PYTHON=ON \
+  -DWITH_QML=ON \
+  || fail "Calamares cmake failed"
+
+make -j$(nproc) || fail "Calamares build failed"
+make DESTDIR="$WORK_DIR/overlay" install || fail "Calamares install failed"
+
+cd -
+ok "Calamares built and installed"
 
 # ── Prepare overlay ──────────────────────────────────────
 log "Preparing overlay..."
