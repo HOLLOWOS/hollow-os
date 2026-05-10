@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Install HollowOS
+Comment=Launch the HollowOS installer
+Exec=sudo -E calamares
+Icon=calamares
+Terminal=false
+Categories=System;
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=3
+NoDisplay=false

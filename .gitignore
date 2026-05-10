@@ -1,0 +1,7 @@
+# HollowOS installer .gitignore
+node_modules/
+.DS_Store
+*.log
+*.swp
+*.bak
+/branding/hollowos/logo.png

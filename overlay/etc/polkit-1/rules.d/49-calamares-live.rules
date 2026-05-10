@@ -1,0 +1,11 @@
+/* HollowOS Live - Polkit rule
+   Allows the liveuser to run Calamares without a sudo password prompt.
+   Only applies in the live session. */
+
+polkit.addRule(function(action, subject) {
+    if (subject.user === "liveuser" &&
+        (action.id === "org.freedesktop.policykit.exec" ||
+         action.id.indexOf("calamares") !== -1)) {
+        return polkit.Result.YES;
+    }
+});

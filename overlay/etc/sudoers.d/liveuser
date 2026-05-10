@@ -1,0 +1,5 @@
+# HollowOS Live - sudoers
+# Allows liveuser to run calamares without a password
+# This file is only present in the live ISO, not the installed system
+
+liveuser ALL=(ALL) NOPASSWD: /usr/bin/calamares
