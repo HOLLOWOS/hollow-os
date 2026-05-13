@@ -69,15 +69,21 @@ PACKAGES=(
   qt5-declarative-devel
   qt5-svg-devel
   qt5-xmlpatterns-devel
-  qt5-tools
+  qt5-tools-devel
+  qt5-quickcontrols2-devel
+  qt5-wayland-devel
+  qt5-x11extras-devel
+  polkit-qt5-devel
   kpmcore-devel
   boost-devel
   yaml-cpp-devel
   libatasmart-devel
-  polkit-qt5-devel
-  ckbcomp
   python3
   python3-devel
+  gettext
+  gcc
+  make
+  git
 
   # Bootloader
   limine
