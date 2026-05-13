@@ -130,13 +130,9 @@ make -j$(nproc) || fail "Calamares build failed"
 make DESTDIR="$WORK_DIR/overlay" install || fail "Calamares install failed"
 
 # Fix library paths so calamares can find its own libs
+mkdir -p "$WORK_DIR/overlay/etc/ld.so.conf.d"
 echo "/usr/lib64/calamares" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
-echo "/usr/lib/calamares" >> "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
-
-# Create symlinks for calamares libs in standard lib path
-mkdir -p "$WORK_DIR/overlay/usr/lib"
-find "$WORK_DIR/overlay/usr/lib64" -name "*.so*" -exec \
-  ln -sf "{}" "$WORK_DIR/overlay/usr/lib/" \; 2>/dev/null || true
+echo "/usr/lib64" >> "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
 
 cd -
 ok "Calamares built and installed"
