@@ -67,6 +67,33 @@ PACKAGES=(
   limine
   efibootmgr
 
+  # Qt6 runtime (needed by Calamares)
+  qt6-base
+  qt6-core
+  qt6-gui
+  qt6-widgets
+  qt6-declarative
+  qt6-svg
+  qt6-wayland
+  qt6-dbus
+  qt6-network
+  qt6-concurrent
+
+  # KF6 runtime (needed by Calamares)
+  kf6-kcoreaddons
+  kf6-ki18n
+  kf6-kconfig
+  kf6-kwidgetsaddons
+  kf6-kservice
+  kf6-kpackage
+  kf6-kcrash
+
+  # Other Calamares runtime deps
+  kpmcore
+  yaml-cpp
+  boost
+  libatasmart
+
   # Useful live tools
   gparted
   nano
@@ -101,6 +128,15 @@ cmake .. \
 
 make -j$(nproc) || fail "Calamares build failed"
 make DESTDIR="$WORK_DIR/overlay" install || fail "Calamares install failed"
+
+# Fix library paths so calamares can find its own libs
+echo "/usr/lib64/calamares" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
+echo "/usr/lib/calamares" >> "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
+
+# Create symlinks for calamares libs in standard lib path
+mkdir -p "$WORK_DIR/overlay/usr/lib"
+find "$WORK_DIR/overlay/usr/lib64" -name "*.so*" -exec \
+  ln -sf "{}" "$WORK_DIR/overlay/usr/lib/" \; 2>/dev/null || true
 
 cd -
 ok "Calamares built and installed"
