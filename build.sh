@@ -123,6 +123,7 @@ cmake .. \
   -DWITH_QT6=ON \
   -DWITH_PYTHON=ON \
   -DWITH_QML=ON \
+  -DBUILD_SHARED_LIBS=ON \
   -DSKIP_MODULES="partition partitionq" \
   || fail "Calamares cmake failed"
 

@@ -2,10 +2,10 @@
 Type=Application
 Name=Install HollowOS
 Comment=Launch the HollowOS installer
-Exec=sudo -E calamares
+Exec=bash -c 'sleep 10 && sudo -E calamares || true'
 Icon=calamares
 Terminal=false
 Categories=System;
 X-GNOME-Autostart-enabled=true
-X-GNOME-Autostart-Delay=3
+X-GNOME-Autostart-Delay=10
 NoDisplay=false
