@@ -147,7 +147,6 @@ sudo ./mklive.sh \
   -o "../$ISO_NAME" \
   -p "${PACKAGES[*]}" \
   -I "$WORK_DIR/overlay" \
-  -s "$(cat /etc/xbps.d/00-repository-main.conf 2>/dev/null || echo 'https://repo-default.voidlinux.org/current')" \
   -- \
   -r "liveuser:liveuser:liveuser:/home/liveuser:/bin/bash:wheel,video,audio,network,storage"
 
