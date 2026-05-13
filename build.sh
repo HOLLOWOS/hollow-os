@@ -34,7 +34,8 @@ command -v xbps-install &>/dev/null || fail "xbps-install not found — run this
 [ -d "$MKLIVE_DIR" ] || fail "void-mklive not found. Run: git clone https://github.com/void-linux/void-mklive"
 
 # ── Package list ─────────────────────────────────────────
-# Everything needed in the live environment
+# Everything needed in the LIVE ENVIRONMENT (goes into the ISO)
+# Note: Calamares build deps are host-only, not listed here
 PACKAGES=(
   # Base
   base-system
@@ -61,32 +62,6 @@ PACKAGES=(
   noto-fonts-ttf
   noto-fonts-emoji
   liberation-fonts-ttf
-
-  # Calamares build dependencies (Qt6/KF6)
-  cmake
-  extra-cmake-modules
-  qt6-devel
-  qt6-declarative-devel
-  qt6-svg-devel
-  qt6-tools-devel
-  qt6-wayland-devel
-  kf6-kcoreaddons-devel
-  kf6-ki18n-devel
-  kf6-kconfig-devel
-  kf6-kwidgetsaddons-devel
-  kf6-kservice-devel
-  kf6-kpackage-devel
-  kf6-kcrash-devel
-  kpmcore-devel
-  boost-devel
-  yaml-cpp-devel
-  libatasmart-devel
-  python3
-  python3-devel
-  gettext
-  gcc
-  make
-  git
 
   # Bootloader
   limine
