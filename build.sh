@@ -13,7 +13,7 @@ set -euo pipefail
 # ── Config ───────────────────────────────────────────────
 ARCH="x86_64"
 VERSION="2025.1"
-ISO_NAME="hollowos-${VERSION}-${ARCH}.iso"
+ISO_NAME="$HOME/hollowos-${VERSION}-${ARCH}.iso"
 MKLIVE_DIR="./void-mklive"
 OVERLAY_DIR="./overlay"
 WORK_DIR="/tmp/hollowos-build"
@@ -128,12 +128,32 @@ cmake .. \
   || fail "Calamares cmake failed"
 
 make -j$(nproc) || fail "Calamares build failed"
-make DESTDIR="$WORK_DIR/overlay" install || fail "Calamares install failed"
 
-# Fix library paths so calamares can find its own libs
+# Install to host system first so libs are properly linked
+make install || fail "Calamares host install failed"
+
+# Now copy the full installation into the overlay
+mkdir -p "$WORK_DIR/overlay/usr/bin"
+mkdir -p "$WORK_DIR/overlay/usr/lib"
+mkdir -p "$WORK_DIR/overlay/usr/lib64"
+mkdir -p "$WORK_DIR/overlay/usr/share/calamares"
+
+# Copy binary
+cp /usr/bin/calamares "$WORK_DIR/overlay/usr/bin/"
+
+# Copy all calamares libs
+cp -a /usr/lib/libcalamares* "$WORK_DIR/overlay/usr/lib/" 2>/dev/null || true
+cp -a /usr/lib64/libcalamares* "$WORK_DIR/overlay/usr/lib64/" 2>/dev/null || true
+cp -a /usr/lib/calamares "$WORK_DIR/overlay/usr/lib/" 2>/dev/null || true
+cp -a /usr/lib64/calamares "$WORK_DIR/overlay/usr/lib64/" 2>/dev/null || true
+
+# Copy share files
+cp -a /usr/share/calamares/. "$WORK_DIR/overlay/usr/share/calamares/" 2>/dev/null || true
+
+# Fix library paths
 mkdir -p "$WORK_DIR/overlay/etc/ld.so.conf.d"
-echo "/usr/lib64/calamares" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
-echo "/usr/lib64" >> "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
+echo "/usr/lib64" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
+echo "/usr/lib64/calamares" >> "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
 
 cd -
 ok "Calamares built and installed"
