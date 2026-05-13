@@ -62,18 +62,21 @@ PACKAGES=(
   noto-fonts-emoji
   liberation-fonts-ttf
 
-  # Calamares build dependencies
+  # Calamares build dependencies (Qt6/KF6)
   cmake
   extra-cmake-modules
-  qt5-devel
-  qt5-declarative-devel
-  qt5-svg-devel
-  qt5-xmlpatterns-devel
-  qt5-tools-devel
-  qt5-quickcontrols2-devel
-  qt5-wayland-devel
-  qt5-x11extras-devel
-  polkit-qt5-devel
+  qt6-devel
+  qt6-declarative-devel
+  qt6-svg-devel
+  qt6-tools-devel
+  qt6-wayland-devel
+  kf6-kcoreaddons-devel
+  kf6-ki18n-devel
+  kf6-kconfig-devel
+  kf6-kwidgetsaddons-devel
+  kf6-kservice-devel
+  kf6-kpackage-devel
+  kf6-kcrash-devel
   kpmcore-devel
   boost-devel
   yaml-cpp-devel
@@ -99,11 +102,11 @@ PACKAGES=(
 # ── Build Calamares from source ──────────────────────────
 log "Building Calamares from source..."
 
-CALAMARES_VERSION="3.3.14"
+CALAMARES_VERSION="calamares"
 CALAMARES_DIR="/tmp/calamares-build"
 
 if [ ! -d "$CALAMARES_DIR" ]; then
-  git clone --depth=1 --branch v${CALAMARES_VERSION} \
+  git clone --depth=1 --branch ${CALAMARES_VERSION} \
     https://github.com/calamares/calamares.git "$CALAMARES_DIR" \
     || fail "Failed to clone Calamares"
 fi
@@ -114,10 +117,11 @@ cd "$CALAMARES_DIR/build"
 cmake .. \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=/usr \
-  -DCMAKE_PREFIX_PATH=/usr/lib/cmake/Qt5 \
-  -DQt5_DIR=/usr/lib/cmake/Qt5 \
+  -DCMAKE_PREFIX_PATH=/usr/lib/cmake \
+  -DWITH_QT6=ON \
   -DWITH_PYTHON=ON \
   -DWITH_QML=ON \
+  -DSKIP_MODULES="partition partitionq" \
   || fail "Calamares cmake failed"
 
 make -j$(nproc) || fail "Calamares build failed"
