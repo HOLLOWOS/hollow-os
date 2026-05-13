@@ -114,6 +114,8 @@ cd "$CALAMARES_DIR/build"
 cmake .. \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=/usr \
+  -DCMAKE_PREFIX_PATH=/usr/lib/cmake/Qt5 \
+  -DQt5_DIR=/usr/lib/cmake/Qt5 \
   -DWITH_PYTHON=ON \
   -DWITH_QML=ON \
   || fail "Calamares cmake failed"
