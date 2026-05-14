@@ -13,7 +13,7 @@ set -euo pipefail
 # ── Config ───────────────────────────────────────────────
 ARCH="x86_64"
 VERSION="2025.1"
-ISO_NAME="$HOME/hollowos-${VERSION}-${ARCH}.iso"
+ISO_NAME="/tmp/hollowos-${VERSION}-${ARCH}.iso"
 MKLIVE_DIR="./void-mklive"
 OVERLAY_DIR="./overlay"
 WORK_DIR="/tmp/hollowos-build"
@@ -197,7 +197,7 @@ cd "$MKLIVE_DIR"
 
 sudo ./mklive.sh \
   -a "$ARCH" \
-  -o "../$ISO_NAME" \
+  -o "$ISO_NAME" \
   -p "${PACKAGES[*]}" \
   -I "$WORK_DIR/overlay" \
   -- \
@@ -209,7 +209,11 @@ cd ..
 if [ -f "$ISO_NAME" ]; then
   ok "ISO built successfully: $ISO_NAME"
   ok "Size: $(du -sh $ISO_NAME | cut -f1)"
-  log "Test with: qemu-system-x86_64 -m 4G -cdrom $ISO_NAME -boot d"
+  # Copy to the user's home directory
+  DEST="/home/${SUDO_USER:-tghrl}/hollowos-${VERSION}-${ARCH}.iso"
+  cp "$ISO_NAME" "$DEST"
+  ok "Copied to: $DEST"
+  log "Test with: qemu-system-x86_64 -m 4G -cdrom $DEST -boot d -enable-kvm"
 else
   fail "ISO build failed — check output above"
 fi

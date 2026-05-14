@@ -1,0 +1,10 @@
+NAME="HollowOS"
+PRETTY_NAME="HollowOS 2025.1"
+ID=hollowos
+ID_LIKE=void
+BUILD_ID=2025.1
+ANSI_COLOR="0;34"
+HOME_URL="https://github.com/HOLLOWOS/hollow-os"
+SUPPORT_URL="https://github.com/HOLLOWOS/hollow-os/issues"
+BUG_REPORT_URL="https://github.com/HOLLOWOS/hollow-os/issues"
+LOGO=hollowos
