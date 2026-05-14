@@ -132,20 +132,30 @@ make -j$(nproc) || fail "Calamares build failed"
 # Install to host system first so libs are properly linked
 make install || fail "Calamares host install failed"
 
+# Run ldconfig so the host knows about the new libs
+ldconfig
+
+# Verify calamares works on host
+if ! /usr/bin/calamares --help &>/dev/null; then
+  warn "Calamares may not work correctly on host"
+fi
+
 # Now copy the full installation into the overlay
 mkdir -p "$WORK_DIR/overlay/usr/bin"
 mkdir -p "$WORK_DIR/overlay/usr/lib"
 mkdir -p "$WORK_DIR/overlay/usr/lib64"
 mkdir -p "$WORK_DIR/overlay/usr/share/calamares"
+mkdir -p "$WORK_DIR/overlay/usr/lib64/calamares"
 
 # Copy binary
-cp /usr/bin/calamares "$WORK_DIR/overlay/usr/bin/"
+cp -v /usr/bin/calamares "$WORK_DIR/overlay/usr/bin/"
 
-# Copy all calamares libs
-cp -a /usr/lib/libcalamares* "$WORK_DIR/overlay/usr/lib/" 2>/dev/null || true
-cp -a /usr/lib64/libcalamares* "$WORK_DIR/overlay/usr/lib64/" 2>/dev/null || true
-cp -a /usr/lib/calamares "$WORK_DIR/overlay/usr/lib/" 2>/dev/null || true
-cp -a /usr/lib64/calamares "$WORK_DIR/overlay/usr/lib64/" 2>/dev/null || true
+# Copy all calamares libs — try all possible locations
+find /usr -name "libcalamares*.so*" -exec cp -av {} "$WORK_DIR/overlay/usr/lib64/" \; 2>/dev/null || true
+find /usr/lib64/calamares -name "*.so*" \
+  -exec cp -av {} "$WORK_DIR/overlay/usr/lib64/calamares/" \; 2>/dev/null || true
+find /usr/lib/calamares -name "*.so*" \
+  -exec cp -av {} "$WORK_DIR/overlay/usr/lib64/calamares/" \; 2>/dev/null || true
 
 # Copy share files
 cp -a /usr/share/calamares/. "$WORK_DIR/overlay/usr/share/calamares/" 2>/dev/null || true
@@ -154,6 +164,10 @@ cp -a /usr/share/calamares/. "$WORK_DIR/overlay/usr/share/calamares/" 2>/dev/nul
 mkdir -p "$WORK_DIR/overlay/etc/ld.so.conf.d"
 echo "/usr/lib64" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
 echo "/usr/lib64/calamares" >> "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
+
+log "Calamares files in overlay:"
+ls "$WORK_DIR/overlay/usr/bin/calamares" 2>/dev/null && ok "Binary: yes" || warn "Binary: MISSING"
+ls "$WORK_DIR/overlay/usr/lib64/libcalamares"* 2>/dev/null && ok "Libs: yes" || warn "Libs: MISSING"
 
 cd -
 ok "Calamares built and installed"
@@ -189,6 +203,8 @@ cp overlay/home/liveuser/.config/autostart/calamares.desktop \
    "$WORK_DIR/overlay/home/liveuser/.config/autostart/"
 
 ok "Overlay ready"
+chmod +x "$WORK_DIR/overlay/etc/hollowos/launch-calamares.sh" 2>/dev/null || true
+chmod +x "$WORK_DIR/overlay/etc/hollowos/install-bun.sh" 2>/dev/null || true
 
 # ── Build ISO ────────────────────────────────────────────
 log "Building ISO — this will take a while..."
