@@ -12,7 +12,7 @@ set -euo pipefail
 
 # ── Config ───────────────────────────────────────────────
 ARCH="x86_64"
-VERSION="2025.1"
+VERSION="2026.1"
 ISO_NAME="/tmp/hollowos-${VERSION}-${ARCH}.iso"
 MKLIVE_DIR="./void-mklive"
 OVERLAY_DIR="./overlay"
@@ -150,20 +150,16 @@ mkdir -p "$WORK_DIR/overlay/usr/lib64/calamares"
 # Copy binary
 cp -v /usr/bin/calamares "$WORK_DIR/overlay/usr/bin/"
 
-# Copy all calamares libs — try all possible locations
-find /usr -name "libcalamares*.so*" -exec cp -av {} "$WORK_DIR/overlay/usr/lib64/" \; 2>/dev/null || true
-find /usr/lib64/calamares -name "*.so*" \
-  -exec cp -av {} "$WORK_DIR/overlay/usr/lib64/calamares/" \; 2>/dev/null || true
-find /usr/lib/calamares -name "*.so*" \
-  -exec cp -av {} "$WORK_DIR/overlay/usr/lib64/calamares/" \; 2>/dev/null || true
+# Copy all calamares libs — they live in the build root
+cp -av "$CALAMARES_DIR/build/libcalamares.so"* "$WORK_DIR/overlay/usr/lib/" 2>/dev/null || true
+cp -av "$CALAMARES_DIR/build/libcalamaresui.so"* "$WORK_DIR/overlay/usr/lib/" 2>/dev/null || true
 
 # Copy share files
 cp -a /usr/share/calamares/. "$WORK_DIR/overlay/usr/share/calamares/" 2>/dev/null || true
 
 # Fix library paths
 mkdir -p "$WORK_DIR/overlay/etc/ld.so.conf.d"
-echo "/usr/lib64" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
-echo "/usr/lib64/calamares" >> "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
+echo "/usr/lib" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
 
 log "Calamares files in overlay:"
 ls "$WORK_DIR/overlay/usr/bin/calamares" 2>/dev/null && ok "Binary: yes" || warn "Binary: MISSING"
