@@ -1,5 +1,4 @@
 # HollowOS Calamares Branding
-# /etc/calamares/branding/hollowos/branding.desc
 
 ---
 
@@ -13,46 +12,22 @@ strings:
   versionedName:       "HollowOS 2026.1"
   shortVersionedName:  "HollowOS 2026.1"
   bootloaderEntryName: "HollowOS"
-  productUrl:          "https://github.com/hollowos/hollowos"
-  supportUrl:          "https://github.com/hollowos/hollowos/issues"
-  releaseNotesUrl:     "https://github.com/hollowos/hollowos/releases"
+  productUrl:          "https://github.com/HOLLOWOS/hollow-os"
+  supportUrl:          "https://github.com/HOLLOWOS/hollow-os/issues"
+  releaseNotesUrl:     "https://github.com/HOLLOWOS/hollow-os/releases"
   donateUrl:           ""
 
-images:
-  productLogo:         "logo.png"
-  productIcon:         "logo.png"
-  productWelcome:      "welcome.png"
+logo:                  "logo.png"
 
 slideshow:             "show.qml"
 slideshowAPI:          2
 
 colors:
-  # Primary brand color
   sidebarBackground:   "#0d0d11"
   sidebarText:         "#eeece8"
   sidebarTextSelect:   "#ffffff"
   sidebarSelect:       "#3F549E"
 
-  # Main panel
-  backgroundMain:      "#111116"
-  backgroundSecondary: "#0d0d11"
-
-  # Accent
-  accent:              "#3F549E"
-  accentHover:         "#4e65b0"
-
-  # Text
-  textPrimary:         "#f0eee8"
-  textSecondary:       "#888680"
-  textMuted:           "#444248"
-
 window:
-  size:        [ 860px, 560px ]
+  size:        [ 860, 560 ]
   placement:   center
-
-navigation:
-  next: "Get Started"
-  back: "Back"
-  install: "Install Now"
-  cancel: "Cancel"
-  cancelInstall: "Cancel"
