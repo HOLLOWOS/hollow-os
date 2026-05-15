@@ -27,6 +27,7 @@ NC='\033[0m'
 log()  { echo -e "${BLUE}[hollow]${NC} $1"; }
 ok()   { echo -e "${GREEN}[hollow]${NC} $1"; }
 fail() { echo -e "${RED}[hollow]${NC} $1"; exit 1; }
+warn() { echo -e "${RED}[hollow] WARN:${NC} $1"; }
 
 # ── Check dependencies ───────────────────────────────────
 log "Checking dependencies..."
