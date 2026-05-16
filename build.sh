@@ -155,21 +155,8 @@ cp -v /usr/bin/calamares "$WORK_DIR/overlay/usr/bin/"
 cp -av "$CALAMARES_DIR/build/libcalamares.so"* "$WORK_DIR/overlay/usr/lib/" 2>/dev/null || true
 cp -av "$CALAMARES_DIR/build/libcalamaresui.so"* "$WORK_DIR/overlay/usr/lib/" 2>/dev/null || true
 
-# Copy share files
+# Copy share files and modules from host installation
 cp -a /usr/share/calamares/. "$WORK_DIR/overlay/usr/share/calamares/" 2>/dev/null || true
-
-# Copy built modules into the ISO
-mkdir -p "$WORK_DIR/overlay/usr/lib64/calamares/modules"
-# Copy compiled .so modules
-find "$CALAMARES_DIR/build/src/modules" -name "*.so" \
-  -exec cp -v {} "$WORK_DIR/overlay/usr/lib64/calamares/modules/" \; 2>/dev/null || true
-# Copy Python/QML modules (subdirectories with module.desc)
-for mod in welcome locale keyboard users summary mount umount unpackfs fstab machineid localecfg networkcfg hwclock packages; do
-  if [ -d "$CALAMARES_DIR/src/modules/$mod" ]; then
-    cp -r "$CALAMARES_DIR/src/modules/$mod" "$WORK_DIR/overlay/usr/lib64/calamares/modules/"
-    log "  module: $mod"
-  fi
-done
 
 # Fix library paths
 mkdir -p "$WORK_DIR/overlay/etc/ld.so.conf.d"
@@ -177,7 +164,6 @@ echo "/usr/lib" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
 
 log "Calamares files in overlay:"
 ls "$WORK_DIR/overlay/usr/bin/calamares" 2>/dev/null && ok "Binary: yes" || warn "Binary: MISSING"
-ls "$WORK_DIR/overlay/usr/lib64/libcalamares"* 2>/dev/null && ok "Libs: yes" || warn "Libs: MISSING"
 
 cd -
 ok "Calamares built and installed"
@@ -200,6 +186,12 @@ cp -r branding/hollowos "$WORK_DIR/overlay/usr/share/calamares/branding/"
 mkdir -p "$WORK_DIR/overlay/usr/lib/calamares/modules"
 cp scripts/hollow-generate.js "$WORK_DIR/overlay/usr/lib/calamares/modules/"
 cp scripts/hollow-detect.js  "$WORK_DIR/overlay/usr/lib/calamares/modules/"
+
+# Copy modules from host AFTER overlay so they don't get overwritten
+log "Copying Calamares modules from host..."
+mkdir -p "$WORK_DIR/overlay/usr/lib64/calamares/modules"
+cp -av /usr/lib64/calamares/modules/. "$WORK_DIR/overlay/usr/lib64/calamares/modules/"
+log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib64/calamares/modules/ | wc -l)"
 
 # Enable runit services in live environment
 mkdir -p "$WORK_DIR/overlay/etc/runit/runsvdir/default"
