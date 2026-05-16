@@ -189,9 +189,9 @@ cp scripts/hollow-detect.js  "$WORK_DIR/overlay/usr/lib/calamares/modules/"
 
 # Copy modules from host AFTER overlay so they don't get overwritten
 log "Copying Calamares modules from host..."
-mkdir -p "$WORK_DIR/overlay/usr/lib64/calamares/modules"
-cp -av /usr/lib64/calamares/modules/. "$WORK_DIR/overlay/usr/lib64/calamares/modules/"
-log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib64/calamares/modules/ | wc -l)"
+mkdir -p "$WORK_DIR/overlay/usr/lib/calamares/modules"
+cp -av /usr/lib64/calamares/modules/. "$WORK_DIR/overlay/usr/lib/calamares/modules/"
+log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib/calamares/modules/ | wc -l)"
 
 # Enable runit services in live environment
 mkdir -p "$WORK_DIR/overlay/etc/runit/runsvdir/default"
