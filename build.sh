@@ -191,6 +191,14 @@ cp scripts/hollow-detect.js  "$WORK_DIR/overlay/usr/lib/calamares/modules/"
 log "Copying Calamares modules from host..."
 mkdir -p "$WORK_DIR/overlay/usr/lib/calamares/modules"
 cp -av /usr/lib64/calamares/modules/. "$WORK_DIR/overlay/usr/lib/calamares/modules/"
+
+# Copy our custom QML modules
+for mod in DEPicker Software HardwareScan NetworkCheck; do
+  if [ -d "modules/$mod" ]; then
+    cp -rv "modules/$mod" "$WORK_DIR/overlay/usr/lib/calamares/modules/"
+    log "  custom module: $mod"
+  fi
+done
 log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib/calamares/modules/ | wc -l)"
 
 # Enable runit services in live environment

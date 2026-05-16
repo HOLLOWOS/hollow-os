@@ -1,0 +1,5 @@
+---
+type: viewmodule
+name: NetworkCheck
+interface: qml
+qmlfilename: NetworkCheck.qml
