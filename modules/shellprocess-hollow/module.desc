@@ -1,0 +1,5 @@
+---
+type: "job"
+name: "shellprocess-hollow"
+interface: "python"
+script: "main.py"

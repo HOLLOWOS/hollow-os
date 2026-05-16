@@ -1,0 +1,5 @@
+---
+type: "job"
+name: "shellprocess-limine"
+interface: "python"
+script: "main.py"
