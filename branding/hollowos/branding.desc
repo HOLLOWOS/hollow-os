@@ -1,33 +1,22 @@
-# HollowOS Calamares Branding
-
 ---
-
 componentName: hollowos
-
 strings:
-  productName:         "HollowOS"
-  shortProductName:    "HollowOS"
-  version:             "2026.1"
-  shortVersion:        "2026.1"
-  versionedName:       "HollowOS 2026.1"
-  shortVersionedName:  "HollowOS 2026.1"
-  bootloaderEntryName: "HollowOS"
-  productUrl:          "https://github.com/HOLLOWOS/hollow-os"
-  supportUrl:          "https://github.com/HOLLOWOS/hollow-os/issues"
-  releaseNotesUrl:     "https://github.com/HOLLOWOS/hollow-os/releases"
-  donateUrl:           ""
-
-logo:                  "logo.png"
-
-slideshow:             "show.qml"
-slideshowAPI:          2
-
+    productName: "HollowOS"
+    shortProductName: "HollowOS"
+    version: "2026.1"
+    versionedName: "HollowOS 2026.1"
+    bootloaderEntryName: "HollowOS"
+    productUrl: "https://github.com/HOLLOWOS/hollow-os"
+images:
+    productLogo: "logo.png"
+    productIcon: "logo.png"
+    productWelcome: "logo.png"
+slideshow: "show.qml"
+slideshowAPI: 2
 colors:
-  sidebarBackground:   "#0d0d11"
-  sidebarText:         "#eeece8"
-  sidebarTextSelect:   "#ffffff"
-  sidebarSelect:       "#3F549E"
-
+    sidebarBackground: "#0d0d11"
+    sidebarText: "#eeece8"
+    sidebarSelect: "#3F549E"
 window:
-  size:        [ 860, 560 ]
-  placement:   center
+    size: [800, 600]
+    placement: center
