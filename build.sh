@@ -201,7 +201,6 @@ for mod in DEPicker HardwareScan Software; do
   cp "branding/hollowos/$mod.qml" "$WORK_DIR/overlay/usr/lib/calamares/modules/$mod/" 2>/dev/null || true
   log "  copied: $mod"
 done
-done
 log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib/calamares/modules/ | wc -l)"
 
 # Enable runit services in live environment
