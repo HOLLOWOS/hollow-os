@@ -158,6 +158,19 @@ cp -av "$CALAMARES_DIR/build/libcalamaresui.so"* "$WORK_DIR/overlay/usr/lib/" 2>
 # Copy share files
 cp -a /usr/share/calamares/. "$WORK_DIR/overlay/usr/share/calamares/" 2>/dev/null || true
 
+# Copy built modules into the ISO
+mkdir -p "$WORK_DIR/overlay/usr/lib64/calamares/modules"
+# Copy compiled .so modules
+find "$CALAMARES_DIR/build/src/modules" -name "*.so" \
+  -exec cp -v {} "$WORK_DIR/overlay/usr/lib64/calamares/modules/" \; 2>/dev/null || true
+# Copy Python/QML modules (subdirectories with module.desc)
+for mod in welcome locale keyboard users summary mount umount unpackfs fstab machineid localecfg networkcfg hwclock packages; do
+  if [ -d "$CALAMARES_DIR/src/modules/$mod" ]; then
+    cp -r "$CALAMARES_DIR/src/modules/$mod" "$WORK_DIR/overlay/usr/lib64/calamares/modules/"
+    log "  module: $mod"
+  fi
+done
+
 # Fix library paths
 mkdir -p "$WORK_DIR/overlay/etc/ld.so.conf.d"
 echo "/usr/lib" > "$WORK_DIR/overlay/etc/ld.so.conf.d/calamares.conf"
