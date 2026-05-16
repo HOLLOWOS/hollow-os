@@ -1,0 +1,5 @@
+---
+type:      viewmodule
+name:      HardwareScan
+interface: qml
+qmlfilename: HardwareScan.qml

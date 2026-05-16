@@ -191,13 +191,16 @@ cp scripts/hollow-detect.js  "$WORK_DIR/overlay/usr/lib/calamares/modules/"
 log "Copying Calamares modules from host..."
 mkdir -p "$WORK_DIR/overlay/usr/lib/calamares/modules"
 cp -av /usr/lib64/calamares/modules/. "$WORK_DIR/overlay/usr/lib/calamares/modules/"
+log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib/calamares/modules/ | wc -l)"
 
-# Copy our custom QML modules
-for mod in DEPicker Software HardwareScan NetworkCheck; do
-  if [ -d "modules/$mod" ]; then
-    cp -rv "modules/$mod" "$WORK_DIR/overlay/usr/lib/calamares/modules/"
-    log "  custom module: $mod"
-  fi
+# Copy custom QML modules
+log "Copying custom HollowOS modules..."
+for mod in DEPicker HardwareScan Software; do
+  mkdir -p "$WORK_DIR/overlay/usr/lib/calamares/modules/$mod"
+  cp "calamares-modules/$mod/module.desc" "$WORK_DIR/overlay/usr/lib/calamares/modules/$mod/"
+  cp "branding/hollowos/$mod.qml" "$WORK_DIR/overlay/usr/lib/calamares/modules/$mod/" 2>/dev/null || true
+  log "  copied: $mod"
+done
 done
 log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib/calamares/modules/ | wc -l)"
 

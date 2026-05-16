@@ -1,0 +1,5 @@
+---
+type:      viewmodule
+name:      DEPicker
+interface: qml
+qmlfilename: DEPicker.qml

@@ -1,0 +1,5 @@
+---
+type:      viewmodule
+name:      Software
+interface: qml
+qmlfilename: Software.qml

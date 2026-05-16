@@ -13,10 +13,12 @@ images:
     productWelcome: "logo.png"
 slideshow: "show.qml"
 slideshowAPI: 2
-colors:
-    sidebarBackground: "#0d0d11"
-    sidebarText: "#eeece8"
-    sidebarSelect: "#3F549E"
+style:
+    SidebarBackground: "#0d0d11"
+    SidebarText: "#eeece8"
+    SidebarTextSelect: "#ffffff"
+    SidebarSelect: "#3F549E"
+    SidebarHighlight: "#3F549E"
 window:
     size: [800, 600]
     placement: center
