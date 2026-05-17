@@ -1,5 +1,5 @@
 ---
 type: viewmodule
 name: HardwareScan
-interface: qtquick
+interface: qmlv1
 qmlfilename: HardwareScan.qml

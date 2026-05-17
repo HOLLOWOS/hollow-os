@@ -193,10 +193,11 @@ mkdir -p "$WORK_DIR/overlay/usr/lib/calamares/modules"
 cp -av /usr/lib64/calamares/modules/. "$WORK_DIR/overlay/usr/lib/calamares/modules/"
 log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib/calamares/modules/ | wc -l)"
 
-# Copy custom QML modules
+# Copy custom QML modules to both lib and lib64
 log "Copying custom HollowOS modules..."
 for mod in DEPicker HardwareScan Software; do
   cp -rv "calamares-modules/$mod" "$WORK_DIR/overlay/usr/lib/calamares/modules/"
+  cp -rv "calamares-modules/$mod" "$WORK_DIR/overlay/usr/lib64/calamares/modules/" 2>/dev/null || true
   log "  copied: $mod"
 done
 log "Modules copied: $(ls $WORK_DIR/overlay/usr/lib/calamares/modules/ | wc -l)"

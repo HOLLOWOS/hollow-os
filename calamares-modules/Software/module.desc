@@ -1,5 +1,5 @@
 ---
 type: viewmodule
 name: Software
-interface: qtquick
+interface: qmlv1
 qmlfilename: Software.qml
