@@ -1,5 +1,5 @@
 ---
 type:      viewmodule
 name:      DEPicker
-interface: qml
+interface: qtquick
 qmlfilename: DEPicker.qml
